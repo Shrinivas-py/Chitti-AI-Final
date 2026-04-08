@@ -1,0 +1,2 @@
+# Chitti-AI
+Chitti-AI is a self-evolving multi-agent intelligence system that generates, refines, and improves solutions through collaboration, iteration, and feedback-driven learning.
