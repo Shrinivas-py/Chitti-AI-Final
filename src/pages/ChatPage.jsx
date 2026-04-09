@@ -70,7 +70,7 @@ export function ChatPage() {
       {/* Header */}
       <div className="chat-header anim-up">
         <h1 className="grad-main">What do you want Chitti to solve?</h1>
-        <p>6 agents will independently think, refine, and converge on your answer.</p>
+        <p>4 agents will independently think, refine, and converge on your answer.</p>
       </div>
 
       {/* Main input */}

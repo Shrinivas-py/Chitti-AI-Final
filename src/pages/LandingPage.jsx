@@ -78,7 +78,7 @@ export function LandingPage() {
         </h1>
 
         <p className="landing-desc">
-          Chitti deploys 6 specialised agents that independently brainstorm,
+          Chitti deploys 4 specialised agents that independently brainstorm,
           challenge each other through shared memory, and iteratively converge
           into a structured, high-quality solution.
         </p>
@@ -104,8 +104,8 @@ export function LandingPage() {
         {/* Stats */}
         <div className="landing-stats" style={{ marginTop: 60 }}>
           {[
-            { n:'6',          l:'Specialised Agents' },
-            { n:'6',          l:'Iteration Rounds'   },
+            { n:'4',          l:'Specialised Agents' },
+            { n:'3',          l:'Iteration Rounds'   },
             { n:'∞',          l:'Query Types'        },
             { n:'100%',       l:'Emergent Output'    },
           ].map((s, i) => (

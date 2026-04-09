@@ -4,7 +4,7 @@ const STEPS = [
   {
     n: 1,
     title: 'Swarm Activation',
-    desc: '6 agents wake and read the problem context',
+    desc: '4 agents wake and read the problem context',
   },
   {
     n: 2,
@@ -13,23 +13,8 @@ const STEPS = [
   },
   {
     n: 3,
-    title: 'Cross-Agent Refinement',
-    desc: 'Agents improve each other\'s ideas using shared MCP',
-  },
-  {
-    n: 4,
-    title: 'Score & Vote',
-    desc: 'Ideas are ranked; weak ones filtered out',
-  },
-  {
-    n: 5,
-    title: 'Evolution',
-    desc: 'Best agent role duplicated; weakest replaced',
-  },
-  {
-    n: 6,
-    title: 'Final Output',
-    desc: 'Top ideas converge into a structured plan',
+    title: 'Refinement & Output',
+    desc: 'Agents cross-refine and converge into final answer',
   },
 ];
 

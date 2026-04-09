@@ -3,7 +3,7 @@ import { IconCopy, IconDownload, IconCheck, IconRefresh } from './Icons';
 
 export function MCPStatus({ problem, iteration, totalIdeas, isThinking }) {
   if (!problem) return null;
-  const progress = Math.min((iteration / 6) * 100, 100);
+  const progress = Math.min((iteration / 3) * 100, 100);
 
   return (
     <div
@@ -17,7 +17,7 @@ export function MCPStatus({ problem, iteration, totalIdeas, isThinking }) {
       <div className="mcp-row">
         <span className="mcp-label">🧠 MCP Core — Problem</span>
         <span style={{ fontSize: '0.7rem', color: 'var(--secondary)' }}>
-          Iteration {iteration}/6
+          Iteration {iteration}/3
         </span>
       </div>
       <p style={{ fontSize: '0.85rem', color: 'var(--txt-dim)', lineHeight: 1.5, marginTop: 2 }}>

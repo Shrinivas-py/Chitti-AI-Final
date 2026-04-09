@@ -4,15 +4,12 @@ import { useApp, AGENTS } from '../store/AppContext';
 import { NetworkGraph, BarChart, IterArc } from '../components/UI/Graphs';
 
 const STEPS = [
-  { n:1, title:'Swarm Activation',       desc:'All agents read the problem context' },
+  { n:1, title:'Swarm Activation',       desc:'All 4 agents read the problem context' },
   { n:2, title:'Idea Generation',        desc:'Independent candidate ideas generated' },
-  { n:3, title:'Cross-Agent Refinement', desc:'Agents improve via shared MCP memory' },
-  { n:4, title:'Score & Vote',           desc:'Ideas ranked; weak ones flagged' },
-  { n:5, title:'Evolution',              desc:'Best role duplicated; weakest replaced' },
-  { n:6, title:'Output Emerged',         desc:'Top ideas converge into structured plan' },
+  { n:3, title:'Refinement & Output',    desc:'Agents cross-refine and converge into final answer' },
 ];
 
-const STATE_MAP = ['idle','activating','generating','refining','scoring','evolving','done'];
+const STATE_MAP = ['idle','activating','generating','refining','done'];
 
 export function ThinkingPage() {
   const { query, step, activeAgents, ideas, iteration, agentStats, isThinking } = useApp();
@@ -31,7 +28,7 @@ export function ThinkingPage() {
         </div>
         <div className="iter-arc-wrap">
           <IterArc iteration={iteration} />
-          {step === 6 && (
+          {step === 3 && (
             <button id="view-output-btn" className="btn btn-accent" onClick={() => navigate('/output')}>
               View Output →
             </button>
@@ -145,7 +142,7 @@ export function ThinkingPage() {
           );
         })}
 
-        {step === 6 && (
+        {step === 3 && (
           <button
             id="view-output-side"
             className="btn btn-accent"

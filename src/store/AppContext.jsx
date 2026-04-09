@@ -8,8 +8,6 @@ export const AGENTS = [
   { id:1, name:'Agent 2', role:'Idea Polishing',       emoji:'✦',  color:'#BF3F57', bg:'rgba(191,63,87,0.12)'   },
   { id:2, name:'Agent 3', role:'Pattern Recognition',  emoji:'◈',  color:'#025959', bg:'rgba(2,89,89,0.15)'     },
   { id:3, name:'Agent 4', role:'Quality Control',      emoji:'◉',  color:'#732047', bg:'rgba(115,32,71,0.15)'   },
-  { id:4, name:'Agent 5', role:'Convergent Merging',   emoji:'⬡',  color:'#1AAFAF', bg:'rgba(26,175,175,0.12)'  },
-  { id:5, name:'Agent 6', role:'Score & Rank',         emoji:'◆',  color:'#A73616', bg:'rgba(167,54,22,0.12)'   },
 ];
 
 export function AppProvider({ children }) {

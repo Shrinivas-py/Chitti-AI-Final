@@ -10,12 +10,10 @@ import { AGENTS } from '../../store/AppContext';
 // Fixed node positions (percent of viewBox 0 0 100 100)
 const NODES = [
   { x:50, y:48 }, // 0 = MCP center
-  { x:22, y:18 }, // 1
-  { x:78, y:18 }, // 2
-  { x:88, y:52 }, // 3
-  { x:65, y:84 }, // 4
-  { x:22, y:76 }, // 5
-  { x:10, y:50 }, // 6
+  { x:25, y:18 }, // 1
+  { x:78, y:22 }, // 2
+  { x:85, y:68 }, // 3
+  { x:18, y:72 }, // 4
 ];
 
 export function NetworkGraph({ activeAgents, step }) {
@@ -26,7 +24,7 @@ export function NetworkGraph({ activeAgents, step }) {
     if (activeAgents === 0) return;
     const id = setInterval(() => {
       setTicks(t => t + 1);
-      const src = (Math.floor(Math.random() * Math.min(activeAgents, 6)) + 1);
+      const src = (Math.floor(Math.random() * Math.min(activeAgents, 4)) + 1);
       setPackets(p => [...p.slice(-5), { src, id: Date.now() }]);
     }, 900);
     return () => clearInterval(id);
@@ -69,7 +67,7 @@ export function NetworkGraph({ activeAgents, step }) {
       {/* Cross connections during refinement phase */}
       {step >= 3 && NODES.slice(1).map((n, i) => {
         if (i >= activeAgents) return null;
-        const j = (i + 1) % Math.min(activeAgents, 6);
+        const j = (i + 1) % Math.min(activeAgents, 4);
         const n2 = NODES[j + 1];
         return (
           <line key={`x${i}`}
@@ -193,7 +191,7 @@ export function BarChart({ agentStats, activeAgents }) {
 }
 
 /* ── Iteration Arc ──────────────────────────────────── */
-export function IterArc({ iteration, total = 6 }) {
+export function IterArc({ iteration, total = 3 }) {
   const R = 20; const cx = 28; const cy = 28;
   const C = 2 * Math.PI * R;
   const filled = C * (iteration / total);

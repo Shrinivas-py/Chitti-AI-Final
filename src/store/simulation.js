@@ -9,16 +9,15 @@ export const RAW_IDEAS = [
 
 export const REFINED_IDEAS = [
   { id:'f1', agentIdx:1, text:'Day 1: Core concept overview + instantly build a working mini project.', score:89 },
-  { id:'f2', agentIdx:4, text:'Combine daily practice with structured feedback loops every 48h.', score:94 },
+  { id:'f2', agentIdx:3, text:'Combine daily practice with structured feedback loops every 48h.', score:94 },
   { id:'f3', agentIdx:0, text:'Week structure: Concepts → Build → Review → Ship. Repeat.', score:87 },
-  { id:'f4', agentIdx:3, text:'Integrate spaced-repetition after each session for retention.', score:79 },
-  { id:'f5', agentIdx:2, text:'Day 7: Full project deployment + 1-page retrospective.', score:91 },
+  { id:'f4', agentIdx:2, text:'Integrate spaced-repetition after each session for retention.', score:79 },
 ];
 
 export function buildOutput(q) {
   return {
     title: `Response: "${q}"`,
-    subtitle: 'Swarm-Refined · 6 Iterations · 6 Agents',
+    subtitle: 'Swarm-Refined · 3 Iterations · 4 Agents',
     days: [
       {
         n: 1,
@@ -104,7 +103,7 @@ export async function runSimulation({
 
   // Phase 1: Swarm activation
   setStep(1); setIteration(1);
-  for (let i = 1; i <= 6; i++) {
+  for (let i = 1; i <= 4; i++) {
     await sleep(350);
     setActiveAgents(i);
     setAgentStats(prev => prev.map((a, idx) =>
@@ -123,30 +122,16 @@ export async function runSimulation({
     ));
   }
 
-  // Phase 3: Refinement
+  // Phase 3: Refinement + Done
   await sleep(800);
   setStep(3); setIteration(3);
   setIdeas(REFINED_IDEAS);
-  setAgentStats(prev => prev.map((a, i) => ({
+  setAgentStats(prev => prev.map((a) => ({
     ...a,
     ideas: a.ideas + Math.floor(Math.random() * 3) + 1,
-    score: Math.min(a.score + 20, 90),
+    score: Math.min(a.score + 28, 97),
   })));
 
-  // Phase 4: Scoring
-  await sleep(1200);
-  setStep(4); setIteration(4);
-  setAgentStats(prev => prev.map((a) => ({
-    ...a, score: Math.min(a.score + 8, 97),
-  })));
-
-  // Phase 5: Evolution
-  await sleep(1000);
-  setStep(5); setIteration(5);
-  setIdeas(REFINED_IDEAS.filter(i => i.score >= 85));
-
-  // Phase 6: Done
-  await sleep(1000);
-  setStep(6); setIteration(6);
+  await sleep(1400);
   setIsThinking(false);
 }

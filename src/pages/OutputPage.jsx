@@ -43,8 +43,8 @@ export function OutputPage() {
         <div className="output-eyebrow">✦ Chitti Output — Emerged via Swarm Intelligence</div>
         <h1 className="output-h1 grad-main">{output.title}</h1>
         <div className="output-meta">
-          <span className="badge badge-teal">⬡ 6 Agents</span>
-          <span className="badge badge-teal">{iteration}/6 Iterations</span>
+          <span className="badge badge-teal">➡ 4 Agents</span>
+          <span className="badge badge-teal">{iteration}/3 Iterations</span>
           <span className="badge badge-accent">{output.days.length} Days Structured</span>
           <span className="badge badge-accent">✦ Intelligence Emerged</span>
         </div>
@@ -117,11 +117,11 @@ export function OutputPage() {
           <div className="scard glass anim-up d3">
             <div className="scard-title">Run Statistics</div>
             {[
-              ['Total Agents', '6 active'],
-              ['Iterations',    `${iteration}/6`],
-              ['Raw Ideas',     '9 generated'],
-              ['Refined Ideas', '5 filtered'],
-              ['Filtered Out',  '2 weak ideas'],
+              ['Total Agents', '4 active'],
+              ['Iterations',    `${iteration}/3`],
+              ['Raw Ideas',     '4 generated'],
+              ['Refined Ideas', '4 filtered'],
+              ['Filtered Out',  '1 weak idea'],
               ['Best Score',    '94 / 100'],
             ].map(([l,v]) => (
               <div key={l} className="stat-row">
