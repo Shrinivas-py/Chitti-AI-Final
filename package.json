@@ -1,0 +1,31 @@
+{
+  "name": "chitti-ai-final",
+  "version": "1.0.0",
+  "description": "Chitti-AI is a self-evolving multi-agent intelligence system that generates, refines, and improves solutions through collaboration, iteration, and feedback-driven learning.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shrinivas-py/Chitti-AI-Final.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Shrinivas-py/Chitti-AI-Final/issues"
+  },
+  "homepage": "https://github.com/Shrinivas-py/Chitti-AI-Final#readme",
+  "dependencies": {
+    "@vitejs/plugin-react": "^6.0.1",
+    "axios": "^1.15.0",
+    "lucide-react": "^1.8.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-router-dom": "^7.14.0",
+    "vite": "^8.0.8"
+  }
+}
