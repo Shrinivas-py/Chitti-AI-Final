@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp, AGENTS } from '../store/AppContext';
 import { NetworkGraph, BarChart, IterArc } from '../components/UI/Graphs';
 
 const STEPS = [
-  { n:1, title:'Swarm Activation',       desc:'All 4 agents read the problem context' },
-  { n:2, title:'Idea Generation',        desc:'Independent candidate ideas generated' },
-  { n:3, title:'Refinement & Output',    desc:'Agents cross-refine and converge into final answer' },
+  { n: 1, title: 'Swarm Activation', desc: 'All agents read the problem context' },
+  { n: 2, title: 'Idea Generation', desc: 'Independent candidate ideas generated' },
+  { n: 3, title: 'Scoring & Synthesis', desc: 'MCP orchestrator scores and refines the swarm output' },
+  { n: 4, title: 'Final Output', desc: 'The best answer is synthesized and ready to view' },
 ];
 
-const STATE_MAP = ['idle','activating','generating','refining','done'];
+const STATE_MAP = ['idle', 'activating', 'generating', 'refining', 'done'];
 
 export function ThinkingPage() {
   const { query, step, activeAgents, ideas, iteration, agentStats, isThinking } = useApp();
@@ -17,71 +18,100 @@ export function ThinkingPage() {
 
   const currentState = STATE_MAP[Math.min(step, STATE_MAP.length - 1)];
 
+  useEffect(() => {
+    if (step === 4 && !isThinking) {
+      navigate('/output');
+    }
+  }, [step, isThinking, navigate]);
+
   return (
     <div className="process-page">
-
-      {/* Problem banner */}
       <div className="problem-banner glass">
         <div className="problem-q">
           <strong>Problem: </strong>
           {query || 'No query — go to Home and enter one.'}
         </div>
+
         <div className="iter-arc-wrap">
           <IterArc iteration={iteration} />
-          {step === 3 && (
-            <button id="view-output-btn" className="btn btn-accent" onClick={() => navigate('/output')}>
+          {step === 4 && (
+            <button
+              id="view-output-btn"
+              className="btn btn-accent"
+              onClick={() => navigate('/output')}
+            >
               View Output →
             </button>
           )}
           {isThinking && (
             <div className="badge badge-teal">
-              <span style={{ width:5, height:5, borderRadius:'50%', background:'var(--primary)', display:'inline-block', animation:'pulse-dot 1s infinite' }} />
+              <span
+                style={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: '50%',
+                  background: 'var(--primary)',
+                  display: 'inline-block',
+                  animation: 'pulse-dot 1s infinite'
+                }}
+              />
               Live
             </div>
           )}
         </div>
       </div>
 
-      {/* Agent list */}
       <div className="agents-list">
         <div className="col-label">⬡ Agent Network</div>
         {AGENTS.map((a, i) => {
           const active = i < activeAgents;
           return (
-            <div key={i}
+            <div
+              key={i}
               className={`agent-item${active ? ' active' : ' inactive'}`}
               style={{ borderColor: active ? `${a.color}25` : 'var(--border)' }}
             >
               <div className="agent-icon" style={{ background: a.bg }}>
                 <span style={{ color: a.color, fontSize: '0.9rem' }}>{a.emoji}</span>
               </div>
+
               <div className="agent-text">
                 <div className="agent-name">{a.name}</div>
                 <div className="agent-role">{a.role}</div>
-                <div className="agent-state" style={{ color: active ? a.color : 'var(--text-3)' }}>
+                <div
+                  className="agent-state"
+                  style={{ color: active ? a.color : 'var(--text-3)' }}
+                >
                   {active ? currentState : 'idle'}
-                  {active && agentStats[i].ideas > 0 && ` · ${agentStats[i].ideas} ideas`}
+                  {active && agentStats[i]?.ideas > 0 && ` · ${agentStats[i].ideas} ideas`}
                 </div>
               </div>
-              <div className="agent-pulse-dot" style={{
-                background: a.color,
-                opacity: active ? 1 : 0.15,
-                animation: active && isThinking ? `pulse-dot ${1.2+i*0.1}s infinite` : 'none',
-              }} />
+
+              <div
+                className="agent-pulse-dot"
+                style={{
+                  background: a.color,
+                  opacity: active ? 1 : 0.15,
+                  animation: active && isThinking ? `pulse-dot ${1.2 + i * 0.1}s infinite` : 'none',
+                }}
+              />
             </div>
           );
         })}
       </div>
 
-      {/* Graphs */}
       <div className="graph-area">
-
         <div className="graph-card glass">
           <div className="graph-card-title">
-            <span style={{ background:'var(--primary)' }} />
+            <span style={{ background: 'var(--primary)' }} />
             Agent Communication Network
             {isThinking && (
-              <span className="badge badge-teal" style={{ marginLeft:'auto', padding:'2px 9px', fontSize:'0.6rem' }}>LIVE</span>
+              <span
+                className="badge badge-teal"
+                style={{ marginLeft: 'auto', padding: '2px 9px', fontSize: '0.6rem' }}
+              >
+                LIVE
+              </span>
             )}
           </div>
           <NetworkGraph activeAgents={activeAgents} step={step} />
@@ -89,21 +119,27 @@ export function ThinkingPage() {
 
         <div className="graph-card glass">
           <div className="graph-card-title">
-            <span style={{ background:'var(--accent)' }} />
+            <span style={{ background: 'var(--accent)' }} />
             Idea Contributions per Agent
           </div>
           <BarChart agentStats={agentStats} activeAgents={activeAgents} />
         </div>
 
-        {/* Idea pool */}
         {ideas.length > 0 && (
           <div>
-            <div className="col-label" style={{ marginBottom:10, paddingLeft:0 }}>💡 Live Idea Pool</div>
+            <div className="col-label" style={{ marginBottom: 10, paddingLeft: 0 }}>
+              💡 Live Idea Pool
+            </div>
             <div className="idea-pool">
               {ideas.map((idea, idx) => {
-                const a = AGENTS[idea.agentIdx] || AGENTS[0];
+                const agentIdx = AGENTS.findIndex(
+                  (a) => a.style === idea.agent_style || a.id === Number(String(idea.agent_id).replace(/\D/g, '')) - 1
+                );
+                const a = AGENTS[agentIdx >= 0 ? agentIdx : 0];
+
                 return (
-                  <div key={idea.id}
+                  <div
+                    key={idea.id || idx}
                     className="idea-chip"
                     style={{
                       borderLeftColor: a.color,
@@ -111,9 +147,9 @@ export function ThinkingPage() {
                       animationDelay: `${idx * 0.06}s`,
                     }}
                   >
-                    {idea.text}
+                    {idea.content}
                     <div className="idea-chip-meta" style={{ color: a.color }}>
-                      {a.emoji} {a.name} · {a.role} · Score {idea.score}
+                      {a.emoji} {a.name} · {a.role} · Iteration {idea.iteration || 1} · Score {idea.score || 0}
                     </div>
                   </div>
                 );
@@ -123,17 +159,29 @@ export function ThinkingPage() {
         )}
       </div>
 
-      {/* Flow */}
       <div className="flow-col">
-        <div className="col-label" style={{ marginBottom:14 }}>⚡ Iteration Flow</div>
-        {STEPS.map(s => {
-          const done   = step > s.n;
+        <div className="col-label" style={{ marginBottom: 14 }}>
+          ⚡ Iteration Flow
+        </div>
+
+        {STEPS.map((s) => {
+          const done = step > s.n;
           const active = step === s.n;
+
           return (
-            <div key={s.n} className={`step-row${done?' done':''}${active?' active':''}`}>
+            <div key={s.n} className={`step-row${done ? ' done' : ''}${active ? ' active' : ''}`}>
               <div className="step-num">{done ? '✓' : s.n}</div>
               <div className="step-info">
-                <div className="step-title" style={{ color: active ? 'var(--primary-lt)' : done ? 'var(--text)' : 'var(--text-3)' }}>
+                <div
+                  className="step-title"
+                  style={{
+                    color: active
+                      ? 'var(--primary-lt)'
+                      : done
+                        ? 'var(--text)'
+                        : 'var(--text-3)'
+                  }}
+                >
                   {s.title}
                 </div>
                 {(active || done) && <div className="step-desc">{s.desc}</div>}
@@ -142,11 +190,11 @@ export function ThinkingPage() {
           );
         })}
 
-        {step === 3 && (
+        {step === 4 && (
           <button
             id="view-output-side"
             className="btn btn-accent"
-            style={{ width:'100%', marginTop:16, justifyContent:'center' }}
+            style={{ width: '100%', marginTop: 16, justifyContent: 'center' }}
             onClick={() => navigate('/output')}
           >
             View Full Output →
